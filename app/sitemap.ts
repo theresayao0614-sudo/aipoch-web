@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next'
+import { MEDFLOW_PAGE_LAST_MODIFIED } from '@/app/(commonLayout)/medflow/medflow-metadata'
 import { OPEN_SCIENCE_PAGE_LAST_MODIFIED } from '@/app/(commonLayout)/open-science/open-science-metadata'
 import { toSchemaDate } from '@/app/(commonLayout)/open-science/open-science-structured-data'
 import { commonLayoutLastModified } from '@/lib/common-layout-metadata'
@@ -104,6 +105,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }),
     withReliableLastModified({
       url: `${SITE_DOMAIN}/medflow`,
+      lastModified: MEDFLOW_PAGE_LAST_MODIFIED,
       changeFrequency: 'monthly',
       priority: 0.8
     }),

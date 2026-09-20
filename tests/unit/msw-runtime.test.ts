@@ -2,7 +2,6 @@ import { afterEach, expect, test } from 'bun:test'
 import { createServer } from 'node:net'
 import { setupServer } from 'msw/node'
 import { interceptionHandlers } from '../../mocks/handlers'
-import { startStateAdapter } from '../../mocks/http-adapter'
 
 let stopAdapter: (() => void) | undefined
 let server: ReturnType<typeof setupServer> | undefined
@@ -13,6 +12,9 @@ afterEach(() => {
 
 // Exercise the transport boundary: read-only requests must be intercepted, state must be shared.
 test('server interception and the HTTP adapter share committed claim state', async () => {
+  // Finish MSW's ESM initialization before the CommonJS middleware requires it.
+  // Eagerly loading both can make Bun reject a dependency that is still evaluating.
+  const { startStateAdapter } = await import('../../mocks/http-adapter')
   const probe = createServer()
   await new Promise<void>((resolve) => probe.listen(0, '127.0.0.1', resolve))
   const address = probe.address()

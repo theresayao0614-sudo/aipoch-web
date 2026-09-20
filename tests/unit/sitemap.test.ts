@@ -127,7 +127,7 @@ describe('sitemap', () => {
       changeFrequency: 'monthly',
       priority: 0.8
     })
-    expect((medFlowRoute?.lastModified as Date).toISOString()).toBe('2026-09-17T00:00:00.000Z')
+    expect((medFlowRoute?.lastModified as Date).toISOString()).toBe('2026-09-20T00:00:00.000Z')
 
     expect(agentSkillsRoute).toMatchObject({
       changeFrequency: 'weekly',
