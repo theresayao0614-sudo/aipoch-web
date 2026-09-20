@@ -92,8 +92,7 @@ owned by the adapter, not to separate browser and SSR stores.
 | Comparison | Two linked skill evaluations | `/compare/literature-review-vs-clinical-trials` |
 | Blog | 24 articles, pagination, details and sitemap | `/blog`, `/blog/release-notes` |
 | Community | 24 discussions, search, sorting, pagination, details and comments | API handlers only; existing community pages intentionally return 404 |
-| MedFlow | Validation, success, duplicate reservation and explicit error cases | `/medflow` |
-| MedFlow redesign | Production-rendered redesign with the same waitlist states and responsive content; intentionally excluded from sitemap | `/medflow-redesign` |
+| MedFlow | Figma redesign with responsive layout, real waitlist submission, validation, success and API errors | `/medflow` |
 | Agent claim | Valid, invalid and already-claimed tokens, shared in-memory verification | `/claim/demo-claim`, `/claim/already-claimed` |
 | Open-Science | Intercepted release manifest and local text downloads | `/open-science/download` |
 
