@@ -1,5 +1,36 @@
 import { expect, test } from '@playwright/test'
 
+test('MedFlow continues the same page surface behind the shared navigation as Blog', async ({
+  page
+}) => {
+  const surfaces = []
+  for (const path of ['/medflow', '/blog']) {
+    await page.goto(path)
+    const header = page.locator('header[data-nav]')
+    await expect(header).toHaveAttribute('data-nav-scrolled', 'false')
+    const surface = await page.evaluate(() => {
+      const nav = document.querySelector('header[data-nav]')
+      const main = document.querySelector('main')
+      if (!nav || !main) throw new Error('Missing shared navigation or page surface')
+      const before = getComputedStyle(nav, '::before')
+      return {
+        mainTop: main.getBoundingClientRect().top,
+        headerTop: nav.getBoundingClientRect().top,
+        background: getComputedStyle(main).backgroundColor,
+        overlay: before.backgroundColor,
+        border: before.borderBottomColor,
+        borderWidth: before.borderBottomWidth,
+        shadow: before.boxShadow
+      }
+    })
+    // A transparent header must blend with the page, not the gray body underneath.
+    expect(surface.mainTop).toBeLessThanOrEqual(surface.headerTop + 1)
+    expect(surface.shadow).toBe('none')
+    surfaces.push(surface)
+  }
+  expect(surfaces[0]).toEqual(surfaces[1])
+})
+
 test('MedFlow success state truncates long display names inside the waitlist card', async ({
   page,
   isMobile
